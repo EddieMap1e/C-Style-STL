@@ -84,6 +84,13 @@ bool str_c_less(string* self, const char* s)
 	return false;
 }
 
+void str_append(string* self, string* s)
+{
+	int len1 = strlen(self->str), len2 = strlen(s->str);
+	self->str = (char*)realloc(self->str, sizeof(char)*(len1 + len2 + 1));	//重新分配空间
+	strcpy(self->str + len1, s->str);
+}
+
 void string_init(string* self,const char* s)
 {
 	int len = strlen(s) + 1;
@@ -102,4 +109,5 @@ void string_init(string* self,const char* s)
 	self->c_greater_than = str_c_greater;
 	self->fewer_than = str_less;
 	self->c_fewer_than = str_c_less;
+	self->append = str_append;
 }

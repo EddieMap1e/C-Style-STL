@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 1 个全局函数  1 个成员变量 12 个成员函数
+目前string拥有 1 个全局函数  1 个成员变量 13 个成员函数
 
 > **string的声明**
 >
@@ -27,7 +27,7 @@
 >+ param self 需要初始化的string
 >+ param s 初始化的字符串
 >+ return void
->+ remarks 任何时候定义string后必须对其使用该全局函数进行初始化
+>+ remarks 任何时候定义string后必须对其使用该全局函数进行初始化 不要重复对同一个对象使用
 
 
 
@@ -156,3 +156,13 @@
 > + param s 需要比较的字符串数组指针
 > + return bool 如果小于返回true 否则返回false
 
+
+
+> **.append(string* self,string *s)**
+>
+> 字符串追加字符串
+>
+> + param self 对象自身的地址
+> + param s 需要追加的字符串对象地址
+> + return void
+> + remarks 大概像是+=的功能

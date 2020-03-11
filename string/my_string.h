@@ -18,6 +18,7 @@ bool str_greater(string*, string*);			//判断是否大于
 bool str_c_greater(string*,const char*);	//判断是否大于
 bool str_less(string*, string*);			//判断是否小于
 bool str_c_less(string*, const char*);		//判断是否小于
+void str_append(string*, string*);			//字符串末尾追加
 
 struct my_string {
 	char* str;
@@ -34,6 +35,7 @@ struct my_string {
 	bool(*c_greater_than)(string*, const char*);
 	bool(*fewer_than)(string*, string*);
 	bool(*c_fewer_than)(string*, const char*);
+	void(*append)(string*, string*);
 };
 
 #endif
