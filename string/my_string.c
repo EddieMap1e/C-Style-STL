@@ -4,6 +4,19 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+char* substr(char* s, int offset, int length)
+{
+	if (offset < 0 || length <= 0)return "\0";	//错误输入返回空字符串
+	int len = strlen(s);
+	int len_ret;	//截取的长度
+	if (len - offset >= length)len_ret = length;	//足够截取
+	else len_ret = len - offset;	//不够截取 直到末尾
+	char* tmp = (char*)malloc(sizeof(char)*(len_ret + 1));
+	strncpy(tmp, s + offset, len_ret);
+	tmp[len_ret] = '\0';	//strncpy这个函数需要手动补终止符
+	return tmp;
+}
+
 void str_show(string* self)
 {
 	printf("%s", self->str);
@@ -91,12 +104,32 @@ void str_append(string* self, string* s)
 	strcpy(self->str + len1, s->str);
 }
 
+char* str_c_substr(string *self, int offset, int length)
+{
+	return substr(self->str, offset, length);
+}
+
+string str_substr(string *self, int offset, int length)
+{
+	string tmp;
+	char* s = substr(self->str, offset, length);
+	string_init(&tmp, s);
+	return tmp;
+}
+
+void str_destroy(string* self)
+{
+	free(self->str);
+
+}
+
 void string_init(string* self,const char* s)
 {
 	int len = strlen(s) + 1;
 	self->str = (char*)malloc(sizeof(char)*len);
 	strcpy(self->str, s);
 	self->init = string_init;
+	self->destroy = str_destroy;
 	self->copy = str_copy;
 	self->c_copy = str_c_copy;
 	self->show = str_show;
@@ -110,4 +143,6 @@ void string_init(string* self,const char* s)
 	self->fewer_than = str_less;
 	self->c_fewer_than = str_c_less;
 	self->append = str_append;
+	self->c_substr = str_c_substr;
+	self->substr = str_substr;
 }

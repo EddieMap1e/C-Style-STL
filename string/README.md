@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 1 个全局函数  1 个成员变量 13 个成员函数
+目前string拥有 2 个全局函数  1 个成员变量 16 个成员函数
 
 > **string的声明**
 >
@@ -8,7 +8,9 @@
 > string str={""};
 > ```
 >
-> 声明时候必须作出定义,大括号初始化的内容无意义,将会被init成员函数覆盖
+> 声明时候必须作出**定义**,大括号初始化的内容无意义,将会被init成员函数覆盖
+>
+> **定义**可以是使用string_init初始化或者赋值string**右值**对象 不要尝试直接赋值string对象 请使用copy成员函数
 >
 > **成员函数的使用**
 >
@@ -20,9 +22,20 @@
 
 
 
+> **substr(char* s,int offset,int length)**
+>
+> C风格的获取子串
+>
+> + param s 需要截取的源字符串
+> + param offset 子串的起始位置
+> + param length 子串的长度
+> + return char* 子串的右值指针 如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串
+
+
+
 >**string_init(string* self,const char* s)**
 >
->string对象的初始化
+>string对象的构造函数
 >
 >+ param self 需要初始化的string
 >+ param s 初始化的字符串
@@ -37,6 +50,16 @@
 >
 > + type char* C字符数组
 > + remarks 可直接访问数组 非常量字符串
+
+
+
+> **.destroy(string* self)**
+>
+> string对象的析构函数
+>
+> + self 对象自身的地址
+> + return void
+> + remarks string作为局部变量时候记得要调用析构函数 因为结构体不会自动调用析构函数
 
 
 
@@ -166,3 +189,26 @@
 > + param s 需要追加的字符串对象地址
 > + return void
 > + remarks 大概像是+=的功能
+
+
+
+> **.c_substr(string* self,int offset,int length)**
+>
+> 获取子串 返回C字符串
+>
+> + param self 对象自身的地址
+> + param offset 子串开始的位置
+> + param length 子串的长度
+> + return char* 子串的右值指针 如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串
+
+
+
+> **.substr(string* self,int offset,int length)**
+>
+> 获取子串 返回string右值对象
+>
+> + param self 对象自身的地址
+> + param offset 子串开始的位置
+> + param length 子串的长度
+> + return string 子串的string右值对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
+

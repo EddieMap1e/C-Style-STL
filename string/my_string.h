@@ -5,7 +5,9 @@
 
 typedef struct my_string string;
 
-void string_init(string*,const char*);		//string初始化
+char* substr(char*, int, int);
+void string_init(string*,const char*);		//string构造函数
+void str_destroy(string*);					//string析构函数
 void str_push_back(string*, char);			//字符串末尾添加一个字符
 char str_pop_back(string*);					//删除字符串末尾的字符
 void str_copy(string*, string*);			//string的拷贝
@@ -19,10 +21,13 @@ bool str_c_greater(string*,const char*);	//判断是否大于
 bool str_less(string*, string*);			//判断是否小于
 bool str_c_less(string*, const char*);		//判断是否小于
 void str_append(string*, string*);			//字符串末尾追加
+char* str_c_substr(string*, int, int);		//获取子串
+string str_substr(string*, int, int);		//获取子串
 
 struct my_string {
 	char* str;
 	void(*init)(string*,const char*);
+	void(*destroy)(string*);
 	void(*push_back)(string*, char);
 	char(*pop_back)(string*);
 	void(*copy)(string*, string*);
@@ -36,6 +41,8 @@ struct my_string {
 	bool(*fewer_than)(string*, string*);
 	bool(*c_fewer_than)(string*, const char*);
 	void(*append)(string*, string*);
+	char*(*c_substr)(string*, int, int);
+	string(*substr)(string*, int, int);
 };
 
 #endif
