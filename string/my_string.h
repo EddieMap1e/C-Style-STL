@@ -6,7 +6,11 @@
 typedef struct my_string string;
 
 char* substr(char*, int, int);
+int KMP_match(char*, char*, int);
 void string_init(string*,const char*);		//string构造函数
+void string_s_init(string*, string*);		//string构造函数
+/*	私有函数 不允许直接访问
+void KMP_next_pre(char*, int*);
 void str_destroy(string*);					//string析构函数
 void str_push_back(string*, char);			//字符串末尾添加一个字符
 char str_pop_back(string*);					//删除字符串末尾的字符
@@ -21,12 +25,16 @@ bool str_c_greater(string*,const char*);	//判断是否大于
 bool str_less(string*, string*);			//判断是否小于
 bool str_c_less(string*, const char*);		//判断是否小于
 void str_append(string*, string*);			//字符串末尾追加
+void str_c_append(string*, char*);			//字符串末尾追加
 char* str_c_substr(string*, int, int);		//获取子串
 string str_substr(string*, int, int);		//获取子串
+int str_find(string*,string*,int);			//查找匹配的子串
+int str_c_find(string*,char*,int);			//查找匹配的子串
+void str_clear(string*)						//清空字符串
+*/
 
 struct my_string {
 	char* str;
-	void(*init)(string*,const char*);
 	void(*destroy)(string*);
 	void(*push_back)(string*, char);
 	char(*pop_back)(string*);
@@ -40,9 +48,13 @@ struct my_string {
 	bool(*c_greater_than)(string*, const char*);
 	bool(*fewer_than)(string*, string*);
 	bool(*c_fewer_than)(string*, const char*);
+	void(*c_append)(string*, char*);
 	void(*append)(string*, string*);
 	char*(*c_substr)(string*, int, int);
 	string(*substr)(string*, int, int);
+	int(*find)(string*, string*, int);
+	int(*c_find)(string*, char*, int);
+	void(*clear)(string*);
 };
 
 #endif

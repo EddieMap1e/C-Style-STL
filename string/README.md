@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 2 个全局函数  1 个成员变量 16 个成员函数
+目前string拥有 4 个全局函数  1 个成员变量 20 个成员函数
 
 > **string的声明**
 >
@@ -22,7 +22,7 @@
 
 
 
-> **substr(char* s,int offset,int length)**
+> **[global] substr(char* s,int offset,int length)**
 >
 > C风格的获取子串
 >
@@ -33,7 +33,18 @@
 
 
 
->**string_init(string* self,const char* s)**
+> **[global] KMP_match(char* s,char* p,int begin)**
+>
+> kmp字符串匹配
+>
+> + param s 待匹配的字符串
+> + param p 模板串
+> + param begin 从哪个位置开始匹配
+> + return int 如果匹配成功 返回第一个匹配到的索引起点 否则返回-1
+
+
+
+>**[global] string_init(string* self,const char* s)**
 >
 >string对象的构造函数
 >
@@ -41,6 +52,17 @@
 >+ param s 初始化的字符串
 >+ return void
 >+ remarks 任何时候定义string后必须对其使用该全局函数进行初始化 不要重复对同一个对象使用
+
+
+
+>**[global] string_s_init(string* self,string* s)**
+>
+>string对象的构造函数
+>
+>+ param self 需要初始化的string
+>+ param s 初始化的字符串
+>+ return void
+>+ remarks 禁止使用未初始化的string对象进行初始化
 
 
 
@@ -192,6 +214,16 @@
 
 
 
+> **.c_append(string* self, char* s)**
+>
+> 字符串追加C字符串
+>
+> + param self 对象自身的地址
+> + param s 需要追加的字符串指针
+> + return void
+
+
+
 > **.c_substr(string* self,int offset,int length)**
 >
 > 获取子串 返回C字符串
@@ -212,3 +244,34 @@
 > + param length 子串的长度
 > + return string 子串的string右值对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
 
+
+
+> **.c_find(string* self,char* pattern,int begin)**
+>
+> 匹配C字符串
+>
+> + param self 对象自身的地址
+> + param pattern 模式匹配的模板字符串
+> + param begin 从原字符串哪里开始匹配
+> + return int 如果匹配成功返回第一次匹配成功的索引值 匹配失败返回-1
+
+
+
+> **.find(string* self,string* pattern,int begin)**
+>
+> 匹配字符串
+>
+> + param self 对象自身的地址
+> + param pattern 模式匹配的模板字符串
+> + param begin 从原字符串哪里开始匹配
+> + return int 如果匹配成功返回第一次匹配成功的索引值 匹配失败返回-1
+
+
+
+> **.clear(string* self)**
+>
+> 清空字符串
+>
+> + param self 对象自身的地址
+> + return void
+> + remarks 实现为仅仅将其数据地址首位置为终止符 内存空间并没有释放
