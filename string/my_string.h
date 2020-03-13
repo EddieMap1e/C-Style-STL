@@ -1,15 +1,26 @@
+/*
+ * Copyright (C) 2020 Eddie
+ *
+ * This library is free software
+ * you can redistribute it and/or modify it
+ *
+ * Author e-mail: 752654212@qq.com
+ *
+ */
+
 #ifndef MY_STRING_H
 #define MY_STRING_H
 
 #include <stdbool.h>
 
-typedef struct my_string string;
+typedef struct my_string* string;
 
 char* substr(char*, int, int);
 int KMP_match(char*, char*, int);
-void string_init(string*,const char*);		//string构造函数
-void string_s_init(string*, string*);		//string构造函数
+string new_string(const char* s);
+string new_string_s(string s);
 /*	私有函数 不允许直接访问 按个人习惯取消隐藏
+void string_init(string,const char*);		//string构造函数
 void KMP_next_pre(char*, int*);
 void str_destroy(string*);					//string析构函数
 void str_push_back(string*, char);			//字符串末尾添加一个字符
@@ -40,30 +51,30 @@ void str_insert(string*,int,string*)		//在指定位置插入字符串
 struct my_string {
 	char* str;
 	unsigned int length;
-	void(*destroy)(string*);
-	void(*push_back)(string*, char);
-	char(*pop_back)(string*);
-	void(*copy)(string*, string*);
-	void(*c_copy)(string*, const char*);
-	unsigned int(*size)(string*);
-	void(*show)(string*);
-	bool(*equal)(string*, string*);
-	bool(*c_equal)(string*, const char*);
-	bool(*greater_than)(string*,string*);
-	bool(*c_greater_than)(string*, const char*);
-	bool(*fewer_than)(string*, string*);
-	bool(*c_fewer_than)(string*, const char*);
-	void(*c_append)(string*, char*);
-	void(*append)(string*, string*);
-	char*(*c_substr)(string*, int, int);
-	string(*substr)(string*, int, int);
-	int(*find)(string*, string*, int);
-	int(*c_find)(string*, char*, int);
-	void(*clear)(string*);
-	void(*reverse)(string*);
-	void(*erase)(string*, int, int);
-	void(*c_insert)(string*, int, char*);
-	void(*insert)(string*, int, string*);
+	void(*destroy)(string);
+	void(*push_back)(string, char);
+	char(*pop_back)(string);
+	void(*copy)(string, string);
+	void(*c_copy)(string, const char*);
+	unsigned int(*size)(string);
+	void(*show)(string);
+	bool(*equal)(string, string);
+	bool(*c_equal)(string, const char*);
+	bool(*greater_than)(string,string);
+	bool(*c_greater_than)(string, const char*);
+	bool(*fewer_than)(string, string);
+	bool(*c_fewer_than)(string, const char*);
+	void(*c_append)(string, char*);
+	void(*append)(string, string);
+	char*(*c_substr)(string, int, int);
+	string(*substr)(string, int, int);
+	int(*find)(string, string, int);
+	int(*c_find)(string, char*, int);
+	void(*clear)(string);
+	void(*reverse)(string);
+	void(*erase)(string, int, int);
+	void(*c_insert)(string, int, char*);
+	void(*insert)(string, int, string);
 };
 
 #endif

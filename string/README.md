@@ -2,23 +2,29 @@
 
 目前string拥有 4 个全局函数  2 个成员变量 24 个成员函数
 
-> **string的声明**
+> **string的声明与定义**
 >
 > ```c++
-> string str={""};
+> string str=new_string("hello my_string")
 > ```
 >
-> 声明时候必须作出**定义**,大括号初始化的内容无意义,将会被init成员函数覆盖
+> 声明时候必须对其进行赋右值操作 (只要返回值是string的都可以)
 >
-> **定义**可以是使用string_init初始化或者赋值string**右值**对象 不要尝试直接赋值string对象 请使用copy成员函数
+> **string的释放**
+>
+> ```c++
+> str->destroy(str);
+> ```
+>
+> 注意不要对string类型直接进行复制操作 如```str=str2```  C语言不会自动调用析构函数 更改对象前请手动使用析构函数进行内存的释放 string对象的赋值请使用```copy```成员函数进行操作
 >
 > **成员函数的使用**
 >
-> 第一个参数均为对象本身
->
 > ```c++
-> str.show(&str);
+> str->show(str);
 > ```
+>
+> 第一个参数均为对象本身 虽然有点繁琐 但是谁叫这是C语言呢
 
 
 
@@ -44,29 +50,27 @@
 
 
 
->**[global] string_init(string* self,const char* s)**
+>**[global] new_string(const char* s)**
 >
 >string对象的构造函数
 >
->+ param self 需要初始化的string
 >+ param s 初始化的字符串
 >+ return void
->+ remarks 任何时候定义string后必须对其使用该全局函数进行初始化 不要重复对同一个对象使用
+>+ remarks 任何时候定义string后必须对其使用该全局函数进行初始化或进行赋值 不要重复对同一个对象使用
 
 
 
->**[global] string_s_init(string* self,string* s)**
+>**[global] new_string_s(string s)**
 >
 >string对象的构造函数
 >
->+ param self 需要初始化的string
 >+ param s 初始化的字符串
 >+ return void
 >+ remarks 禁止使用未初始化的string对象进行初始化
 
 
 
-> **.str**
+> **->str**
 >
 > string对象的字符数组
 >
@@ -75,7 +79,7 @@
 
 
 
-> **.length**
+> **->length**
 >
 > string对象的长度
 >
@@ -83,7 +87,7 @@
 
 
 
-> **.destroy(string* self)**
+> **->destroy(string self)**
 >
 > string对象的析构函数
 >
@@ -93,7 +97,7 @@
 
 
 
-> **.push_back(string* self,char c)**		$O(1)$
+> **->push_back(string self,char c)**		$O(1)$
 >
 > 在最后添加一个字符
 >
@@ -103,7 +107,7 @@
 
 
 
-> **.pop_back(string* self)**		$O(1)$
+> **->pop_back(string self)**		$O(1)$
 >
 > 删除最后一个字符并返回它
 >
@@ -112,7 +116,7 @@
 
 
 
-> **.size(string* self)**
+> **->size(string self)**
 >
 > 获取字符串的长度
 >
@@ -121,7 +125,7 @@
 
 
 
-> **.copy(string* self,string *s)**		$O(n)$
+> **->copy(string self,string *s)**		$O(n)$
 >
 > string的赋值
 >
@@ -131,7 +135,7 @@
 
 
 
-> **.c_copy(string* self, const char* s)**		$O(n)$
+> **->c_copy(string self, const char* s)**		$O(n)$
 >
 > 字符数组的赋值
 >
@@ -141,7 +145,7 @@
 
 
 
-> **.show(string* self)**
+> **->show(string self)**
 >
 > 打印输出字符串
 >
@@ -151,7 +155,7 @@
 
 
 
-> **.equal(string* self,string* s)**
+> **->equal(string self,string s)**
 >
 > 判断两个string是否相等
 >
@@ -161,7 +165,7 @@
 
 
 
-> **.c_equal(string* self,const char* s)**
+> **->c_equal(string self,const char* s)**
 >
 > 判断string和字符数组是否相等
 >
@@ -171,7 +175,7 @@
 
 
 
-> **.greater_than(string* self,string* s)**
+> **->greater_than(string self,string s)**
 >
 > 判断是否大于
 >
@@ -181,7 +185,7 @@
 
 
 
-> **.c_greater_than(string* self,const char* s)**
+> **->c_greater_than(string self,const char* s)**
 >
 > 判断string是否大于字符数组
 >
@@ -191,7 +195,7 @@
 
 
 
-> **.fewer_than(string* self,string* s)**
+> **->fewer_than(string self,string s)**
 >
 > 判断是否小于
 >
@@ -201,7 +205,7 @@
 
 
 
-> **.c_fewer_than(string* self,const char* s)**
+> **->c_fewer_than(string self,const char* s)**
 >
 > 判断string是否小于字符数组
 >
@@ -211,7 +215,7 @@
 
 
 
-> **.append(string* self,string *s)**		$O(n)$
+> **->append(string self,string *s)**		$O(n)$
 >
 > 字符串追加字符串
 >
@@ -222,7 +226,7 @@
 
 
 
-> **.c_append(string* self, char* s)**		$O(n)$
+> **->c_append(string self, char* s)**		$O(n)$
 >
 > 字符串追加C字符串
 >
@@ -232,7 +236,7 @@
 
 
 
-> **.c_substr(string* self,int offset,int length)**		$O(n)$
+> **->c_substr(string self,int offset,int length)**		$O(n)$
 >
 > 获取子串 返回C字符串
 >
@@ -243,19 +247,19 @@
 
 
 
-> **.substr(string* self,int offset,int length)**		$O(n)$
+> **->substr(string self,int offset,int length)**		$O(n)$
 >
 > 获取子串 返回string右值对象
 >
 > + param self 对象自身的地址
 > + param offset 子串开始的位置
 > + param length 子串的长度
-> + return string 子串的string**右值**对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
+> + return string 子串的string*右值**对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
 > + remarks 该返回值如果赋值在已初始化的对象  请务必先析构之前的对象  一般用于声明时候直接用该函数初始化
 
 
 
-> **.c_find(string* self,char* pattern,int begin)**		$O(m+n)$
+> **->c_find(string self,char* pattern,int begin)**		$O(m+n)$
 >
 > 匹配C字符串
 >
@@ -266,7 +270,7 @@
 
 
 
-> **.find(string* self,string* pattern,int begin)**		$O(m+n)$
+> **->find(string self,string pattern,int begin)**		$O(m+n)$
 >
 > 匹配字符串
 >
@@ -277,7 +281,7 @@
 
 
 
-> **.clear(string* self)**
+> **->clear(string self)**
 >
 > 清空字符串
 >
@@ -287,7 +291,7 @@
 
 
 
-> **.reverse(string* self)**		$O(n)$
+> **->reverse(string self)**		$O(n)$
 >
 > 翻转字符串
 >
@@ -296,7 +300,7 @@
 
 
 
-> **.erase(string* self,int begin,int end)**		$O(n)$
+> **->erase(string self,int begin,int end)**		$O(n)$
 >
 > 删除字符串的子串
 >
@@ -308,7 +312,7 @@
 
 
 
-> **.c_insert(string* self,int pos,char* s)**		$O(n)$
+> **->c_insert(string self,int pos,char* s)**		$O(n)$
 >
 > 字符串的插入
 >
@@ -319,7 +323,7 @@
 
 
 
-> **.c_insert(string* self,int pos,string* s)**		$O(n)$
+> **->c_insert(string self,int pos,string s)**		$O(n)$
 >
 > 字符串的插入
 >

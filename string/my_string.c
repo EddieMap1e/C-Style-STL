@@ -1,3 +1,13 @@
+/*
+ * Copyright (C) 2020 Eddie
+ *
+ * This library is free software
+ * you can redistribute it and/or modify it
+ *
+ * Author e-mail: 752654212@qq.com
+ *
+ */
+
 #define _CRT_SECURE_NO_WARNINGS
 #include "my_string.h"
 #include <string.h>
@@ -48,12 +58,12 @@ int KMP_match(char* s, char* p, int begin)
 	return -1;	//匹配不成功
 }
 
-void str_show(string* self)
+void str_show(string self)
 {
 	printf("%s", self->str);
 }
 
-void str_c_copy(string* self, const char* s)
+void str_c_copy(string self, const char* s)
 {
 	free(self->str);	//先要释放原来的空间
 	self->length = strlen(s);
@@ -61,12 +71,12 @@ void str_c_copy(string* self, const char* s)
 	strcpy(self->str, s);
 }
 
-void str_copy(string* self, string* s)
+void str_copy(string self, string s)
 {
 	str_c_copy(self, s->str);
 }
 
-void str_push_back(string* self, char c)
+void str_push_back(string self, char c)
 {
 	int len = self->length + 2;
 	self->str = (char*)realloc(self->str, sizeof(char)*len);	//重新分配空间
@@ -75,7 +85,7 @@ void str_push_back(string* self, char c)
 	self->length++;
 }
 
-char str_pop_back(string* self)
+char str_pop_back(string self)
 {
 	//此函数无需注意空间的丢失 realloc会解决
 	int len = self->length;
@@ -86,45 +96,45 @@ char str_pop_back(string* self)
 	return c;
 }
 
-unsigned str_size(string* self)
+unsigned str_size(string self)
 {
 	return self->length;
 }
 
-bool str_c_equal(string* self, const char* s)
+bool str_c_equal(string self, const char* s)
 {
 	if (!strcmp(self->str, s))return true;
 	return false;
 }
 
-bool str_equal(string* self, string* s)
+bool str_equal(string self, string s)
 {
 	return str_c_equal(self, s->str);
 }
 
-bool str_c_greater(string* self, const char* s)
+bool str_c_greater(string self, const char* s)
 {
 	if (strcmp(self->str, s) > 0)return true;
 	return false;
 }
 
-bool str_greater(string* self, string* s)
+bool str_greater(string self, string s)
 {
 	return str_c_greater(self, s->str);
 }
 
-bool str_c_less(string* self, const char* s)
+bool str_c_less(string self, const char* s)
 {
 	if (strcmp(self->str, s) < 0)return true;
 	return false;
 }
 
-bool str_less(string* self, string* s)
+bool str_less(string self, string s)
 {
 	return str_c_less(self, s->str);
 }
 
-void str_c_append(string* self, char* s)
+void str_c_append(string self, char* s)
 {
 	int len1 = self->length, len2 = strlen(s);
 	self->length = len1 + len2;
@@ -132,42 +142,41 @@ void str_c_append(string* self, char* s)
 	strcpy(self->str + len1, s);
 }
 
-void str_append(string* self, string* s)
+void str_append(string self, string s)
 {
 	str_c_append(self, s->str);
 }
 
-char* str_c_substr(string *self, int offset, int length)
+char* str_c_substr(string self, int offset, int length)
 {
 	return substr(self->str, offset, length);
 }
 
-string str_substr(string *self, int offset, int length)
+string str_substr(string self, int offset, int length)
 {
-	string tmp;
 	char* s = substr(self->str, offset, length);
-	string_init(&tmp, s);
+	string tmp = new_string(s);
 	return tmp;
 }
 
-int str_find(string* self, string* p, int begin)
+int str_find(string self, string p, int begin)
 {
 	return KMP_match(self->str, p->str, begin);
 }
 
-int str_c_find(string* self, char* p, int begin)
+int str_c_find(string self, char* p, int begin)
 {
 	return KMP_match(self->str, p, begin);
 }
 
-void str_clear(string* self)
+void str_clear(string self)
 {
 	if (self->length==0)return;
 	self->str[0] = '\0';
 	self->length = 0;
 }
 
-void str_reverse(string* self)
+void str_reverse(string self)
 {
 	int len = self->length;
 	if (len <= 1)return;
@@ -178,7 +187,7 @@ void str_reverse(string* self)
 	}
 }
 
-void str_erase(string* self, int begin, int end)
+void str_erase(string self, int begin, int end)
 {
 	if (begin >= end)return;	//非法
 	int len = self->length;
@@ -187,7 +196,7 @@ void str_erase(string* self, int begin, int end)
 	for (int i = begin, j = end; j <= len; i++, j++)self->str[i] = self->str[j];
 }
 
-void str_c_insert(string* self, int pos, char* s)
+void str_c_insert(string self, int pos, char* s)
 {
 	if (pos >= (int)self->length) {
 		str_c_append(self, s);
@@ -204,12 +213,12 @@ void str_c_insert(string* self, int pos, char* s)
 	self->str[self->length] = '\0';
 }
 
-void str_insert(string* self, int pos, string* s)
+void str_insert(string self, int pos, string s)
 {
 	str_c_insert(self, pos, s->str);
 }
 
-void str_destroy(string* self)
+void str_destroy(string self)
 {
 	free(self->str);
 	self->length = 0;
@@ -239,7 +248,7 @@ void str_destroy(string* self)
 	self->insert = NULL;
 }
 
-void string_init(string* self,const char* s)
+void string_init(string self,const char* s)
 {
 	if (s) {
 		self->length = strlen(s);
@@ -277,7 +286,15 @@ void string_init(string* self,const char* s)
 	self->insert = str_insert;
 }
 
-void string_s_init(string* self, string* s)
+string new_string(const char* s)
 {
-	string_init(self, s->str);
+	string ret = (string)malloc(sizeof(struct my_string));
+	string_init(ret, s);
+	return ret;
+}
+
+string new_string_s(string s)
+{
+	if (s == NULL)return NULL;
+	return new_string(s->str);
 }
