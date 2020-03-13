@@ -53,49 +53,42 @@ void str_show(string* self)
 	printf("%s", self->str);
 }
 
-void str_copy(string* self, string* s)
-{
-	free(self->str);	//先要释放原来的空间
-	int len = strlen(s->str) + 1;
-	self->str = (char*)malloc(sizeof(char)*len);
-	strcpy(self->str, s->str);
-}
-
 void str_c_copy(string* self, const char* s)
 {
 	free(self->str);	//先要释放原来的空间
-	int len = strlen(s) + 1;
-	self->str = (char*)malloc(sizeof(char)*len);
+	self->length = strlen(s);
+	self->str = (char*)malloc(sizeof(char)*(self->length+1));
 	strcpy(self->str, s);
+}
+
+void str_copy(string* self, string* s)
+{
+	str_c_copy(self, s->str);
 }
 
 void str_push_back(string* self, char c)
 {
-	int len = strlen(self->str) + 2;
+	int len = self->length + 2;
 	self->str = (char*)realloc(self->str, sizeof(char)*len);	//重新分配空间
 	self->str[len - 2] = c;
 	self->str[len - 1] = '\0';
+	self->length++;
 }
 
 char str_pop_back(string* self)
 {
 	//此函数无需注意空间的丢失 realloc会解决
-	int len = strlen(self->str);
+	int len = self->length;
 	if (!len)return '\0';
 	char c = self->str[len - 1];
 	self->str[len - 1] = '\0';
+	self->length--;
 	return c;
 }
 
 unsigned str_size(string* self)
 {
-	return strlen(self->str);
-}
-
-bool str_equal(string* self, string* s)
-{
-	if (!strcmp(self->str, s->str))return true;
-	return false;
+	return self->length;
 }
 
 bool str_c_equal(string* self, const char* s)
@@ -104,10 +97,9 @@ bool str_c_equal(string* self, const char* s)
 	return false;
 }
 
-bool str_greater(string* self, string* s)
+bool str_equal(string* self, string* s)
 {
-	if (strcmp(self->str, s->str) > 0)return true;
-	return false;
+	return str_c_equal(self, s->str);
 }
 
 bool str_c_greater(string* self, const char* s)
@@ -116,10 +108,9 @@ bool str_c_greater(string* self, const char* s)
 	return false;
 }
 
-bool str_less(string* self, string* s)
+bool str_greater(string* self, string* s)
 {
-	if (strcmp(self->str, s->str) < 0)return true;
-	return false;
+	return str_c_greater(self, s->str);
 }
 
 bool str_c_less(string* self, const char* s)
@@ -128,10 +119,16 @@ bool str_c_less(string* self, const char* s)
 	return false;
 }
 
+bool str_less(string* self, string* s)
+{
+	return str_c_less(self, s->str);
+}
+
 void str_c_append(string* self, char* s)
 {
-	int len1 = strlen(self->str), len2 = strlen(s);
-	self->str = (char*)realloc(self->str, sizeof(char)*(len1 + len2 + 1));	//重新分配空间
+	int len1 = self->length, len2 = strlen(s);
+	self->length = len1 + len2;
+	self->str = (char*)realloc(self->str, sizeof(char)*(self->length + 1));	//重新分配空间
 	strcpy(self->str + len1, s);
 }
 
@@ -165,24 +162,92 @@ int str_c_find(string* self, char* p, int begin)
 
 void str_clear(string* self)
 {
-	if (!strlen(self->str))return;
+	if (self->length==0)return;
 	self->str[0] = '\0';
+	self->length = 0;
+}
+
+void str_reverse(string* self)
+{
+	int len = self->length;
+	if (len <= 1)return;
+	for (int i = 0, j = len - 1; i < len / 2; i++, j--) {
+		char t = self->str[i];
+		self->str[i] = self->str[j];
+		self->str[j] = t;
+	}
+}
+
+void str_erase(string* self, int begin, int end)
+{
+	if (begin >= end)return;	//非法
+	int len = self->length;
+	if (end > len)end = len;	//删到最后
+	self->length -= (end - begin);
+	for (int i = begin, j = end; j <= len; i++, j++)self->str[i] = self->str[j];
+}
+
+void str_c_insert(string* self, int pos, char* s)
+{
+	if (pos >= (int)self->length) {
+		str_c_append(self, s);
+		return;
+	}
+	int len = strlen(s);
+	if (!len)return;
+	self->length += len;
+	self->str = (char*)realloc(self->str, sizeof(char)*(self->length + 1));
+	for (int i = self->length - len - 1, j = self->length - 1; j >= pos + len; i--, j--)	//从后往前复制
+		self->str[j] = self->str[i];
+	for (int i = pos, j = 0; i < pos + len; i++, j++)
+		self->str[i] = s[j];
+	self->str[self->length] = '\0';
+}
+
+void str_insert(string* self, int pos, string* s)
+{
+	str_c_insert(self, pos, s->str);
 }
 
 void str_destroy(string* self)
 {
 	free(self->str);
-
+	self->length = 0;
+	self->destroy = NULL;
+	self->copy = NULL;
+	self->c_copy = NULL;
+	self->show = NULL;
+	self->push_back = NULL;
+	self->pop_back = NULL;
+	self->size = NULL;
+	self->equal = NULL;
+	self->c_equal = NULL;
+	self->greater_than = NULL;
+	self->c_greater_than = NULL;
+	self->fewer_than = NULL;
+	self->c_fewer_than = NULL;
+	self->append = NULL;
+	self->c_append = NULL;
+	self->c_substr = NULL;
+	self->substr = NULL;
+	self->find = NULL;
+	self->c_find = NULL;
+	self->clear = NULL;
+	self->reverse = NULL;
+	self->erase = NULL;
+	self->c_insert = NULL;
+	self->insert = NULL;
 }
 
 void string_init(string* self,const char* s)
 {
 	if (s) {
-		int len = strlen(s) + 1;
-		self->str = (char*)malloc(sizeof(char)*len);
+		self->length = strlen(s);
+		self->str = (char*)malloc(sizeof(char)*(self->length+1));
 		strcpy(self->str, s);
 	}
 	else {		//非法传入空指针
+		self->length = 0;
 		self->str = (char*)malloc(sizeof(char));
 		self->str[0] = '\0';
 	}
@@ -206,6 +271,10 @@ void string_init(string* self,const char* s)
 	self->find = str_find;
 	self->c_find = str_c_find;
 	self->clear = str_clear;
+	self->reverse = str_reverse;
+	self->erase = str_erase;
+	self->c_insert = str_c_insert;
+	self->insert = str_insert;
 }
 
 void string_s_init(string* self, string* s)

@@ -9,7 +9,7 @@ char* substr(char*, int, int);
 int KMP_match(char*, char*, int);
 void string_init(string*,const char*);		//string构造函数
 void string_s_init(string*, string*);		//string构造函数
-/*	私有函数 不允许直接访问
+/*	私有函数 不允许直接访问 按个人习惯取消隐藏
 void KMP_next_pre(char*, int*);
 void str_destroy(string*);					//string析构函数
 void str_push_back(string*, char);			//字符串末尾添加一个字符
@@ -30,11 +30,16 @@ char* str_c_substr(string*, int, int);		//获取子串
 string str_substr(string*, int, int);		//获取子串
 int str_find(string*,string*,int);			//查找匹配的子串
 int str_c_find(string*,char*,int);			//查找匹配的子串
-void str_clear(string*)						//清空字符串
+void str_clear(string*);					//清空字符串
+void str_reverse(string*);					//翻转字符串
+void str_erase(string*,int,int);			//删除子串
+void str_c_insert(string*,int,char*)		//在指定位置插入字符串
+void str_insert(string*,int,string*)		//在指定位置插入字符串
 */
 
 struct my_string {
 	char* str;
+	unsigned int length;
 	void(*destroy)(string*);
 	void(*push_back)(string*, char);
 	char(*pop_back)(string*);
@@ -55,6 +60,10 @@ struct my_string {
 	int(*find)(string*, string*, int);
 	int(*c_find)(string*, char*, int);
 	void(*clear)(string*);
+	void(*reverse)(string*);
+	void(*erase)(string*, int, int);
+	void(*c_insert)(string*, int, char*);
+	void(*insert)(string*, int, string*);
 };
 
 #endif

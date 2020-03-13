@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 4 个全局函数  1 个成员变量 20 个成员函数
+目前string拥有 4 个全局函数  2 个成员变量 24 个成员函数
 
 > **string的声明**
 >
@@ -22,7 +22,7 @@
 
 
 
-> **[global] substr(char* s,int offset,int length)**
+> **[global] substr(char* s,int offset,int length)**		$O(n)$
 >
 > C风格的获取子串
 >
@@ -33,7 +33,7 @@
 
 
 
-> **[global] KMP_match(char* s,char* p,int begin)**
+> **[global] KMP_match(char* s,char* p,int begin)**		$O(m+n)$
 >
 > kmp字符串匹配
 >
@@ -75,6 +75,14 @@
 
 
 
+> **.length**
+>
+> string对象的长度
+>
+> + type unsigned int 长度大小
+
+
+
 > **.destroy(string* self)**
 >
 > string对象的析构函数
@@ -85,7 +93,7 @@
 
 
 
-> **.push_back(string* self,char c)**
+> **.push_back(string* self,char c)**		$O(1)$
 >
 > 在最后添加一个字符
 >
@@ -95,7 +103,7 @@
 
 
 
-> **.pop_back(string* self)**
+> **.pop_back(string* self)**		$O(1)$
 >
 > 删除最后一个字符并返回它
 >
@@ -113,7 +121,7 @@
 
 
 
-> **.copy(string* self,string *s)**
+> **.copy(string* self,string *s)**		$O(n)$
 >
 > string的赋值
 >
@@ -123,7 +131,7 @@
 
 
 
-> **.c_copy(string* self, const char* s)**
+> **.c_copy(string* self, const char* s)**		$O(n)$
 >
 > 字符数组的赋值
 >
@@ -203,7 +211,7 @@
 
 
 
-> **.append(string* self,string *s)**
+> **.append(string* self,string *s)**		$O(n)$
 >
 > 字符串追加字符串
 >
@@ -214,7 +222,7 @@
 
 
 
-> **.c_append(string* self, char* s)**
+> **.c_append(string* self, char* s)**		$O(n)$
 >
 > 字符串追加C字符串
 >
@@ -224,7 +232,7 @@
 
 
 
-> **.c_substr(string* self,int offset,int length)**
+> **.c_substr(string* self,int offset,int length)**		$O(n)$
 >
 > 获取子串 返回C字符串
 >
@@ -235,18 +243,19 @@
 
 
 
-> **.substr(string* self,int offset,int length)**
+> **.substr(string* self,int offset,int length)**		$O(n)$
 >
 > 获取子串 返回string右值对象
 >
 > + param self 对象自身的地址
 > + param offset 子串开始的位置
 > + param length 子串的长度
-> + return string 子串的string右值对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
+> + return string 子串的string**右值**对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
+> + remarks 该返回值如果赋值在已初始化的对象  请务必先析构之前的对象  一般用于声明时候直接用该函数初始化
 
 
 
-> **.c_find(string* self,char* pattern,int begin)**
+> **.c_find(string* self,char* pattern,int begin)**		$O(m+n)$
 >
 > 匹配C字符串
 >
@@ -257,7 +266,7 @@
 
 
 
-> **.find(string* self,string* pattern,int begin)**
+> **.find(string* self,string* pattern,int begin)**		$O(m+n)$
 >
 > 匹配字符串
 >
@@ -275,3 +284,46 @@
 > + param self 对象自身的地址
 > + return void
 > + remarks 实现为仅仅将其数据地址首位置为终止符 内存空间并没有释放
+
+
+
+> **.reverse(string* self)**		$O(n)$
+>
+> 翻转字符串
+>
+> + param self 对象自身的地址
+> + return void
+
+
+
+> **.erase(string* self,int begin,int end)**		$O(n)$
+>
+> 删除字符串的子串
+>
+> + param self 对象自身的地址
+> + param begin 删除开始的索引位置
+> + param end 删除结束的索引位置+1
+> + return void
+> + remarks 删除的范围是[begin,end) 左闭右开 删除掉的并没有释放其内存
+
+
+
+> **.c_insert(string* self,int pos,char* s)**		$O(n)$
+>
+> 字符串的插入
+>
+> + param self 对象自身的地址
+> + param pos 开始插入的位置 注意即该位置上原来的字符将会放在插入的后面
+> + param s 插入的字符串
+> + return void
+
+
+
+> **.c_insert(string* self,int pos,string* s)**		$O(n)$
+>
+> 字符串的插入
+>
+> + param self 对象自身的地址
+> + param pos 开始插入的位置 注意即该位置上原来的字符将会放在插入的后面
+> + param s 插入的string对象地址
+> + return void
