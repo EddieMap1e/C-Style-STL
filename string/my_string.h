@@ -60,32 +60,59 @@ int str_cmp(const void*,const void*)		//比较大小
 */
 
 struct my_string {
+	//数据域
 	char* str;
+	//字符串长度
 	unsigned int length;
-	void(*destroy)(string self);
+	//析构函数
+	void(*destroy)(void* obj);
+	//向末尾添加一个字符
 	void(*push_back)(string self, char c);
+	//删除最后的字符
 	char(*pop_back)(string self);
+	//复制函数
 	void(*copy)(void* dest, const void* src);
+	//复制函数 C字符串
 	void(*c_copy)(string self, const char* s);
+	//获取对象结构体大小
 	unsigned int(*size)();
+	//打印字符串
 	void(*show)(string self);
+	//判断相等
 	bool(*equal)(string self, string s);
+	//判断相等
 	bool(*c_equal)(string self, const char* s);
+	//判断大于
 	bool(*greater_than)(string self,string s);
+	//判断大于
 	bool(*c_greater_than)(string self, const char* s);
+	//判断小于
 	bool(*fewer_than)(string self, string s);
+	//判断小于
 	bool(*c_fewer_than)(string self, const char* s);
+	//追加字符串 C字符串
 	void(*c_append)(string self, char* s);
+	//追加字符串
 	void(*append)(string self, string s);
+	//获取子串 C字符串
 	char*(*c_substr)(string self, int offset, int length);
+	//获取子串
 	string(*substr)(string self, int offset, int length);
+	//查找子串
 	int(*find)(string self, string s, int begin);
+	//查找子串 C字符串
 	int(*c_find)(string self, char* s, int begin);
+	//清空字符串
 	void(*clear)(string self);
+	//翻转字符串
 	void(*reverse)(string self);
+	//删除子串
 	void(*erase)(string self, int begin, int end);
+	//插入子串 C字符串
 	void(*c_insert)(string self, int pos, char* s);
+	//插入子串
 	void(*insert)(string self, int pos, string s);
+	//模板比较函数
 	int(*compare)(const void* a,const void* b);
 };
 
