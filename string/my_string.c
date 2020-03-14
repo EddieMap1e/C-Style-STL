@@ -3,16 +3,15 @@
  *
  * This library is free software
  * you can redistribute it and/or modify it
+ * if you find BUG you can send E-mail to me
+ *
+ * github project https://github.com/EddieMap1e/C-Style-STL
  *
  * Author e-mail: 752654212@qq.com
- *
  */
 
 #define _CRT_SECURE_NO_WARNINGS
 #include "my_string.h"
-#include <string.h>
-#include <stdlib.h>
-#include <stdio.h>
 
 char* substr(char* s, int offset, int length)
 {
@@ -71,9 +70,9 @@ void str_c_copy(string self, const char* s)
 	strcpy(self->str, s);
 }
 
-void str_copy(string self, string s)
+void str_copy(void* dest, const void* src)
 {
-	str_c_copy(self, s->str);
+	str_c_copy((string)dest, ((string)src)->str);
 }
 
 void str_push_back(string self, char c)
@@ -96,9 +95,9 @@ char str_pop_back(string self)
 	return c;
 }
 
-unsigned str_size(string self)
+unsigned int str_size()
 {
-	return self->length;
+	return sizeof (struct my_string);
 }
 
 bool str_c_equal(string self, const char* s)
@@ -218,34 +217,40 @@ void str_insert(string self, int pos, string s)
 	str_c_insert(self, pos, s->str);
 }
 
-void str_destroy(string self)
+int str_cmp(const void* a,const void* b)
 {
-	free(self->str);
-	self->length = 0;
-	self->destroy = NULL;
-	self->copy = NULL;
-	self->c_copy = NULL;
-	self->show = NULL;
-	self->push_back = NULL;
-	self->pop_back = NULL;
-	self->size = NULL;
-	self->equal = NULL;
-	self->c_equal = NULL;
-	self->greater_than = NULL;
-	self->c_greater_than = NULL;
-	self->fewer_than = NULL;
-	self->c_fewer_than = NULL;
-	self->append = NULL;
-	self->c_append = NULL;
-	self->c_substr = NULL;
-	self->substr = NULL;
-	self->find = NULL;
-	self->c_find = NULL;
-	self->clear = NULL;
-	self->reverse = NULL;
-	self->erase = NULL;
-	self->c_insert = NULL;
-	self->insert = NULL;
+	return strcmp((*(string*)a)->str, (*(string*)b)->str);
+}
+
+void str_destroy(void* obj)
+{
+	free(((string)obj)->str);
+	((string)obj)->length = 0;
+	((string)obj)->destroy = NULL;
+	((string)obj)->copy = NULL;
+	((string)obj)->c_copy = NULL;
+	((string)obj)->show = NULL;
+	((string)obj)->push_back = NULL;
+	((string)obj)->pop_back = NULL;
+	((string)obj)->size = NULL;
+	((string)obj)->equal = NULL;
+	((string)obj)->c_equal = NULL;
+	((string)obj)->greater_than = NULL;
+	((string)obj)->c_greater_than = NULL;
+	((string)obj)->fewer_than = NULL;
+	((string)obj)->c_fewer_than = NULL;
+	((string)obj)->append = NULL;
+	((string)obj)->c_append = NULL;
+	((string)obj)->c_substr = NULL;
+	((string)obj)->substr = NULL;
+	((string)obj)->find = NULL;
+	((string)obj)->c_find = NULL;
+	((string)obj)->clear = NULL;
+	((string)obj)->reverse = NULL;
+	((string)obj)->erase = NULL;
+	((string)obj)->c_insert = NULL;
+	((string)obj)->insert = NULL;
+	((string)obj)->compare = NULL;
 }
 
 void string_init(string self,const char* s)
@@ -284,6 +289,7 @@ void string_init(string self,const char* s)
 	self->erase = str_erase;
 	self->c_insert = str_c_insert;
 	self->insert = str_insert;
+	self->compare = str_cmp;
 }
 
 string new_string(const char* s)

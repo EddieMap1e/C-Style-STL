@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 4 个全局函数  2 个成员变量 24 个成员函数
+目前string拥有 4 个全局函数  2 个成员变量 25 个成员函数
 
 > **string的声明与定义**
 >
@@ -87,11 +87,11 @@
 
 
 
-> **->destroy(string self)**
+> **->destroy(void* obj)**
 >
-> string对象的析构函数
+> string对象的模板析构函数
 >
-> + self 对象自身的地址
+> + obj 对象自身的地址
 > + return void
 > + remarks string作为局部变量时候记得要调用析构函数 因为结构体不会自动调用析构函数
 
@@ -116,21 +116,20 @@
 
 
 
-> **->size(string self)**
+> **->size()**
 >
-> 获取字符串的长度
+> 获取string 结构体的大小
 >
-> + param self 对象自身的地址
-> + return unsigned int 返回字符串长度 不包括终止符'\0'
+> + return unsigned int 返回sizeof(string的结构体)
 
 
 
-> **->copy(string self,string *s)**		$O(n)$
+> **->copy(void* dest,const void *src)**		$O(n)$
 >
-> string的赋值
+> string的赋值 or 模板复制函数
 >
-> + param self 对象自身的地址
-> + param s 被复制的字符串对象
+> + param dest 对象自身的地址
+> + param src 被复制的字符串对象
 > + return void
 
 
@@ -331,3 +330,13 @@
 > + param pos 开始插入的位置 注意即该位置上原来的字符将会放在插入的后面
 > + param s 插入的string对象地址
 > + return void
+
+
+
+> **->compare(const void* a,const void* b)**
+>
+> string对象的模板比较函数
+>
+> + param a string a
+> + param b string b
+> + return int 如果a==b 返回0 如果a>b 返回1 如果a<b 返回-1
