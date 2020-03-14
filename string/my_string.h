@@ -37,7 +37,7 @@ void str_push_back(string, char);			//字符串末尾添加一个字符
 char str_pop_back(string);					//删除字符串末尾的字符
 void str_copy(void*,const void*);			//string的拷贝
 void str_c_copy(string, const char*);		//常量字符串的拷贝
-unsigned int str_size();					//string对象的内存大小
+size_t str_size();					//string对象的内存大小
 void str_show(string);						//打印字符串
 bool str_equal(string, string);				//判断是否相等
 bool str_c_equal(string, const char*);		//判断是否相等
@@ -75,7 +75,7 @@ struct my_string {
 	//复制函数 C字符串
 	void(*c_copy)(string self, const char* s);
 	//获取对象结构体大小
-	unsigned int(*size)();
+	size_t(*size)();
 	//打印字符串
 	void(*show)(string self);
 	//判断相等

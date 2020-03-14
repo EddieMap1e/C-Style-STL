@@ -95,7 +95,7 @@ char str_pop_back(string self)
 	return c;
 }
 
-unsigned int str_size()
+size_t str_size()
 {
 	return sizeof (struct my_string);
 }

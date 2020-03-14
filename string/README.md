@@ -120,7 +120,7 @@
 >
 > 获取string 结构体的大小
 >
-> + return unsigned int 返回sizeof(string的结构体)
+> + return size_t 返回sizeof(string的结构体)
 
 
 
