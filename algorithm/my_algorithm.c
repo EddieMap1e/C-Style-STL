@@ -21,12 +21,12 @@ void swap(void* a, void* b, size_t elem_size)
 	free(t);
 }
 
-int int_cmp(void* a, void* b)
+int int_cmp(const void* a,const void* b)
 {
 	return *(int*)a - *(int*)b;
 }
 
-int long_long_cmp(void* a, void* b)
+int long_long_cmp(const void* a, const void* b)
 {
 	long long t = *(long long*)a - *(long long*)b;
 	if (t > 0ll)return 1;
@@ -34,12 +34,12 @@ int long_long_cmp(void* a, void* b)
 	return 0;
 }
 
-int char_cmp(void* a, void* b)
+int char_cmp(const void* a, const void* b)
 {
 	return *(char*)a - *(char*)b;
 }
 
-int float_cmp(void* a, void* b)
+int float_cmp(const void* a, const void* b)
 {
 	float t= *(float*)a - *(float*)b;
 	if (t >= 1e-8)return 1;
@@ -47,7 +47,7 @@ int float_cmp(void* a, void* b)
 	return 0;
 }
 
-int double_cmp(void* a, void* b)
+int double_cmp(const void* a, const void* b)
 {
 	double t = *(double*)a - *(double*)b;
 	if (t >= 1e-8)return 1;
@@ -55,7 +55,7 @@ int double_cmp(void* a, void* b)
 	return 0;
 }
 
-int c_str_cmp(void* a, void* b)
+int c_str_cmp(const void* a, const void* b)
 {
 	return strcmp((char*)a, (char*)b);
 }

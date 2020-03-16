@@ -13,6 +13,10 @@
 #ifndef MY_STRING_H
 #define MY_STRING_H
 
+#ifndef _CRT_SECURE_NO_WARNINGS
+#define _CRT_SECURE_NO_WARNINGS
+#endif
+
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
@@ -37,7 +41,7 @@ void str_push_back(string, char);			//字符串末尾添加一个字符
 char str_pop_back(string);					//删除字符串末尾的字符
 void str_copy(void*,const void*);			//string的拷贝
 void str_c_copy(string, const char*);		//常量字符串的拷贝
-size_t str_size();					//string对象的内存大小
+size_t str_size();							//string对象的内存大小
 void str_show(string);						//打印字符串
 bool str_equal(string, string);				//判断是否相等
 bool str_c_equal(string, const char*);		//判断是否相等

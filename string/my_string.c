@@ -10,7 +10,6 @@
  * Author e-mail: 752654212@qq.com
  */
 
-#define _CRT_SECURE_NO_WARNINGS
 #include "my_string.h"
 
 char* substr(char* s, int offset, int length)
