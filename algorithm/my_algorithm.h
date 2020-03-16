@@ -16,6 +16,7 @@
 #include <stdbool.h>
 #include <string.h>
 #include <stdlib.h>
+#include <assert.h>
 
 #ifndef _CRT_SECURE_NO_WARNINGS
 #define _CRT_SECURE_NO_WARNINGS
@@ -25,30 +26,30 @@
 #define TEMPLATE_FUNCTION_NAME
 
 typedef char* byte;
-typedef int(*compare_func)(const void* a, const void* b);
-typedef void(*destroy_func)(void* obj);
-typedef void(*copy_func)(void* dest, const void* src);
+typedef int(*compare_func)(const void* a_addr, const void* b_addr);
+typedef void(*destroy_func)(void* obj_addr);
+typedef void(*copy_func)(void* dest_addr, const void* src_addr);
 
 #endif
 
 //模板交换
-void swap(void* a, void* b, size_t elem_size);
+void swap(void* a_addr, void* b_addr, size_t elem_size);
 //返回给定范围中最大的元素
 void* max_element(void* arr, int begin, int end, size_t elem_size, compare_func);
 //返回给定范围中最小的元素
 void* min_element(void* arr, int begin, int end, size_t elem_size, compare_func);
 //int模板比较函数
-int int_cmp(const void* a, const void* b);
+int int_cmp(const void* a_addr, const void* b_addr);
 //longlong模板比较函数
-int long_long_cmp(const void* a,const void* b);
+int long_long_cmp(const void* a_addr,const void* b_addr);
 //char模板比较函数
-int char_cmp(const void* a,const void* b);
+int char_cmp(const void* a_addr,const void* b_addr);
 //float模板比较函数
-int float_cmp(const void* a,const void* b);
+int float_cmp(const void* a_addr,const void* b_addr);
 //double模板比较函数
-int double_cmp(const void* a,const void* b);
+int double_cmp(const void* a_addr,const void* b_addr);
 //char*模板比较函数
-int c_str_cmp(const void* a,const void* b);
+int c_str_cmp(const void* a_addr,const void* b_addr);
 //模板冒泡排序
 void bubble_sort(void* arr, int length, size_t elem_size, compare_func);
 //模板快速排序函数

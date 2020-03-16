@@ -8,21 +8,24 @@
 >
 > ```c++
 > //对象析构函数
-> void destroy_func(void* obj);
-> //对象比较函数 >返回正数 ==返回0 <返回负数
-> int compare_func(const void* a,const void* b);
+> //需要把对象拥有的全部指针处理
+> void destroy_func(void* obj_addr);
+> //对象比较函数
+> //>返回正数 ==返回0 <返回负数
+> int compare_func(const void* a_addr,const void* b_addr);
 > //对象复制函数
-> void copy_func(void* dest,const void* src);
+> //dest为未初始化的对象
+> void copy_func(void* dest_addr,const void* src_addr);
 > ```
 
 
 
-> **[global] swap(void* a,void* b,size_t elem_size)**
+> **[global] swap(void* a_addr,void* b_addr,size_t elem_size)**
 >
 > 交换元素函数
 >
-> + param a 需要交换的对象a
-> + param b 需要交换的对象b
+> + param a_addr 需要交换的对象a的地址
+> + param b_addr 需要交换的对象b的地址
 > + elem_size 对象的内存大小
 > + return void 两个对象元素的内存内容直接交换
 > + remarks a和b的类型需要相同
@@ -57,64 +60,64 @@
 
 
 
-> **[global] int_cmp(void*a,void *b)**
+> **[global] int_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型int的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 
 
 
-> **[global] long_long_cmp(void*a,void *b)**
+> **[global] long_long_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型long_long的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 
 
 
-> **[global] char_cmp(void*a,void *b)**
+> **[global] char_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型char的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 
 
 
-> **[global] float_cmp(void*a,void *b)**
+> **[global] float_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型float的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 > + remarks 此函数相等的精度为相差不超过1e-8表示相等
 
 
 
-> **[global] int_cmp(void*a,void *b)**
+> **[global] int_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型double的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 > + remarks 此函数相等的精度为相差不超过1e-8表示相等
 
 
 
-> **[global] c_str_cmp(void*a,void *b)**
+> **[global] c_str_cmp(void*a_addr,void *b_addr)**
 >
 > 基本类型char*的比较函数
 >
-> + param a 比较元素前者
-> + param b 比较元素后者
+> + param a_addr 比较元素前者
+> + param b_addr 比较元素后者
 > + return int >返回1 ==返回0 <返回-1
 
 

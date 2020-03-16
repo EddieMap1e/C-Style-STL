@@ -12,52 +12,53 @@
 
 #include "my_algorithm.h"
 
-void swap(void* a, void* b, size_t elem_size)
+void swap(void* a_addr, void* b_addr, size_t elem_size)
 {
 	void* t = malloc(elem_size);
-	memcpy(t, a, elem_size);
-	memcpy(a, b, elem_size);
-	memcpy(b, t, elem_size);
+	assert(t != NULL);
+	memcpy(t, a_addr, elem_size);
+	memcpy(a_addr, b_addr, elem_size);
+	memcpy(b_addr, t, elem_size);
 	free(t);
 }
 
-int int_cmp(const void* a,const void* b)
+int int_cmp(const void* a_addr,const void* b_addr)
 {
-	return *(int*)a - *(int*)b;
+	return *(int*)a_addr - *(int*)b_addr;
 }
 
-int long_long_cmp(const void* a, const void* b)
+int long_long_cmp(const void* a_addr, const void* b_addr)
 {
-	long long t = *(long long*)a - *(long long*)b;
+	long long t = *(long long*)a_addr - *(long long*)b_addr;
 	if (t > 0ll)return 1;
 	else if (t < 0ll)return -1;
 	return 0;
 }
 
-int char_cmp(const void* a, const void* b)
+int char_cmp(const void* a_addr, const void* b_addr)
 {
-	return *(char*)a - *(char*)b;
+	return *(char*)a_addr - *(char*)b_addr;
 }
 
-int float_cmp(const void* a, const void* b)
+int float_cmp(const void* a_addr, const void* b_addr)
 {
-	float t= *(float*)a - *(float*)b;
+	float t= *(float*)a_addr - *(float*)b_addr;
 	if (t >= 1e-8)return 1;
 	else if (t <= -1e-8)return -1;
 	return 0;
 }
 
-int double_cmp(const void* a, const void* b)
+int double_cmp(const void* a_addr, const void* b_addr)
 {
-	double t = *(double*)a - *(double*)b;
+	double t = *(double*)a_addr - *(double*)b_addr;
 	if (t >= 1e-8)return 1;
 	else if (t <= -1e-8)return -1;
 	return 0;
 }
 
-int c_str_cmp(const void* a, const void* b)
+int c_str_cmp(const void* a_addr, const void* b_addr)
 {
-	return strcmp((char*)a, (char*)b);
+	return strcmp((char*)a_addr, (char*)b_addr);
 }
 
 void bubble_sort(void* arr, int length, size_t elem_size,compare_func cmp)
@@ -69,7 +70,7 @@ void bubble_sort(void* arr, int length, size_t elem_size,compare_func cmp)
 		flag = false;
 		for (int j = 0; j < length - i - 1; j++)
 		{
-			a = (byte)arr + j * elem_size;		//通过偏移值获取源对象
+			a = (byte)arr + j * elem_size;		//通过偏移值获取源对象地址
 			b = (byte)arr + (j + 1)*elem_size;
 			if (cmp(a, b) > 0) {
 				swap(a, b, elem_size);
@@ -84,7 +85,7 @@ void quick_sort(void* arr, int begin, int end , size_t elem_size, compare_func c
 {
 	if (begin >= end)return;
 	int i = begin - 1, j = end + 1;	//左右两个哨兵
-	void* base = (byte)arr + ((begin + end) >> 1)*elem_size;	//基准元素
+	void* base = (byte)arr + ((begin + end) >> 1)*elem_size;	//基准元素的地址
 	while (i < j)
 	{
 		while (cmp((byte)arr + (++i)*elem_size, base) < 0);		//左哨兵先移动找到第一个比基准元素要大的
