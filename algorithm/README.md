@@ -14,7 +14,7 @@
 > //>返回正数 ==返回0 <返回负数
 > int compare_func(const void* a_addr,const void* b_addr);
 > //对象复制函数
-> //dest为未初始化的对象
+> //需要把新的复制出来的对象赋值给dest
 > void copy_func(void* dest_addr,const void* src_addr);
 > ```
 
