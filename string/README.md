@@ -1,6 +1,6 @@
 ## string
 
-目前string拥有 4 个全局函数  2 个成员变量 25 个成员函数
+目前string拥有 7 个全局函数  2 个成员变量 23 个成员函数
 
 > **string的声明与定义**
 >
@@ -50,6 +50,38 @@
 
 
 
+> **[global] string_cmp(const void* a_addr,const void* b_addr)**
+>
+> string对象的模板比较函数
+>
+> + param a_addr string a 的地址
+> + param b_addr string b 的地址
+> + return int 如果a==b 返回0 如果a>b 返回1 如果a<b 返回-1
+> + remarks 一般不需要主动调用
+
+
+
+> **[global] string_destroy(void* obj_addr)**
+>
+> string对象的模板析构函数
+>
+> + obj_addr string对象的地址
+> + return void
+> + remarks 一般不需要主动调用
+
+
+
+> **[global] string_copy(void* dest_addr,const void *src_addr)**
+>
+> string对象模板复制函数
+>
+> + param dest_addr string需要复制对象的地址
+> + param src_addr 被复制的string对象地址
+> + return void
+> + remarks 一般不需要主动调用
+
+
+
 >**[global] new_string(const char* s)**
 >
 >string对象的构造函数
@@ -64,7 +96,7 @@
 >
 >string对象的构造函数
 >
->+ param s 初始化的字符串
+>+ param s 初始化的string对象
 >+ return void
 >+ remarks 禁止使用未初始化的string对象进行初始化
 
@@ -87,11 +119,11 @@
 
 
 
-> **->destroy(void* obj)**
+> **->destroy(string self)**
 >
-> string对象的模板析构函数
+> string对象的析构函数
 >
-> + obj 对象自身的地址
+> + obj 对象自身
 > + return void
 > + remarks string作为局部变量时候记得要调用析构函数 因为结构体不会自动调用析构函数
 
@@ -101,7 +133,7 @@
 >
 > 在最后添加一个字符
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param c 需要添加的字符
 > + return void
 
@@ -111,25 +143,17 @@
 >
 > 删除最后一个字符并返回它
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + return char 返回被删除的字符 如果字符串为空 返回'\0'
 
 
 
-> **->size()**
+> **->copy(string self,string s)**		$O(n)$
 >
-> 获取string 结构体的大小
+> string的赋值
 >
-> + return size_t 返回sizeof(string的结构体)
-
-
-
-> **->copy(void* dest,const void *src)**		$O(n)$
->
-> string的赋值 or 模板复制函数
->
-> + param dest 对象自身的地址
-> + param src 被复制的字符串对象
+> + param self 对象自身
+> + param s 被复制的string对象
 > + return void
 
 
@@ -138,7 +162,7 @@
 >
 > 字符数组的赋值
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param s 被复制的字符数组指针
 > + return void
 
@@ -148,7 +172,7 @@
 >
 > 打印输出字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + return void
 > + remarks  使用的是printf输出到标准输出上
 
@@ -158,8 +182,8 @@
 >
 > 判断两个string是否相等
 >
-> + param self 对象自身的地址
-> + param s 需要比较的string的地址
+> + param self 对象自身
+> + param s 需要比较的string对象
 > + return bool 如果相等返回true 否则返回false
 
 
@@ -168,7 +192,7 @@
 >
 > 判断string和字符数组是否相等
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param s 需要比较的字符串数组指针
 > + return bool 如果相等返回true 否则返回false
 
@@ -178,8 +202,8 @@
 >
 > 判断是否大于
 >
-> + param self 对象自身的地址
-> + param s 需要比较的string地址
+> + param self 对象自身
+> + param s 需要比较的string对象
 > + return bool 如果大于返回true 否则返回false
 
 
@@ -188,7 +212,7 @@
 >
 > 判断string是否大于字符数组
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param s 需要比较的字符串数组指针
 > + return bool 如果大于返回true 否则返回false
 
@@ -198,8 +222,8 @@
 >
 > 判断是否小于
 >
-> + param self 对象自身的地址
-> + param s 需要比较的string地址
+> + param self 对象自身
+> + param s 需要比较的string的对象
 > + return bool 如果小于返回true 否则返回false
 
 
@@ -208,18 +232,18 @@
 >
 > 判断string是否小于字符数组
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param s 需要比较的字符串数组指针
 > + return bool 如果小于返回true 否则返回false
 
 
 
-> **->append(string self,string *s)**		$O(n)$
+> **->append(string self,string s)**		$O(n)$
 >
 > 字符串追加字符串
 >
-> + param self 对象自身的地址
-> + param s 需要追加的字符串对象地址
+> + param self 对象自身
+> + param s 需要追加的string对象
 > + return void
 > + remarks 大概像是+=的功能
 
@@ -229,7 +253,7 @@
 >
 > 字符串追加C字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param s 需要追加的字符串指针
 > + return void
 
@@ -239,7 +263,7 @@
 >
 > 获取子串 返回C字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param offset 子串开始的位置
 > + param length 子串的长度
 > + return char* 子串的右值指针 如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串
@@ -250,10 +274,10 @@
 >
 > 获取子串 返回string右值对象
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param offset 子串开始的位置
 > + param length 子串的长度
-> + return string 子串的string*右值**对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
+> + return string 子串的string右值对象  如果length大于可获取子串长度 返回到结尾 如果偏移值和长度有误 返回空字符串的string右值对象
 > + remarks 该返回值如果赋值在已初始化的对象  请务必先析构之前的对象  一般用于声明时候直接用该函数初始化
 
 
@@ -262,7 +286,7 @@
 >
 > 匹配C字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param pattern 模式匹配的模板字符串
 > + param begin 从原字符串哪里开始匹配
 > + return int 如果匹配成功返回第一次匹配成功的索引值 匹配失败返回-1
@@ -273,7 +297,7 @@
 >
 > 匹配字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param pattern 模式匹配的模板字符串
 > + param begin 从原字符串哪里开始匹配
 > + return int 如果匹配成功返回第一次匹配成功的索引值 匹配失败返回-1
@@ -284,7 +308,7 @@
 >
 > 清空字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + return void
 > + remarks 实现为仅仅将其数据地址首位置为终止符 内存空间并没有释放
 
@@ -294,7 +318,7 @@
 >
 > 翻转字符串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + return void
 
 
@@ -303,7 +327,7 @@
 >
 > 删除字符串的子串
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param begin 删除开始的索引位置
 > + param end 删除结束的索引位置+1
 > + return void
@@ -315,7 +339,7 @@
 >
 > 字符串的插入
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param pos 开始插入的位置 注意即该位置上原来的字符将会放在插入的后面
 > + param s 插入的字符串
 > + return void
@@ -326,17 +350,7 @@
 >
 > 字符串的插入
 >
-> + param self 对象自身的地址
+> + param self 对象自身
 > + param pos 开始插入的位置 注意即该位置上原来的字符将会放在插入的后面
 > + param s 插入的string对象地址
 > + return void
-
-
-
-> **->compare(const void* a,const void* b)**
->
-> string对象的模板比较函数
->
-> + param a string a
-> + param b string b
-> + return int 如果a==b 返回0 如果a>b 返回1 如果a<b 返回-1
